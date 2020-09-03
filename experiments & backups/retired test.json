@@ -1,0 +1,36 @@
+{
+    "number": "63",
+    "position": "19",
+    "positionText": "R",
+    "points": "0",
+    "Driver": {
+        "driverId": "russell",
+        "permanentNumber": "63",
+        "code": "RUS",
+        "url": "",
+        "givenName": "George",
+        "familyName": "Russell",
+        "dateOfBirth": "1998-02-15",
+        "nationality": "British"
+    },
+    "Constructor": {
+        "constructorId": "williams",
+        "url": "",
+        "name": "Williams",
+        "nationality": "British"
+    },
+    "grid": "15",
+    "laps": "9",
+    "status": "Debris",
+    "FastestLap": {
+        "rank": "18",
+        "lap": "5",
+        "Time": {
+            "time": "1:51.754"
+        },
+        "AverageSpeed": {
+            "units": "kph",
+            "speed": "225.624"
+        }
+    }
+}
