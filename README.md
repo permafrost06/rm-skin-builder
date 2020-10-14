@@ -13,4 +13,4 @@ To build the "skin.ini" file, run the meters.py script
 1. Reusable styles.
 1. Add row/column placement option (similar to Bootstrap CSS).
 1. Add common meter/measure presets.
-1. Modify the default ```StringAlign``` behaviour.
+1. Create a hack that changes the default ```StringAlign``` behaviour so that using the value "R" on X option of next meter places the two meters side by side. Abstract this away somehow.
