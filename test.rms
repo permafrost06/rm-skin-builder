@@ -1,0 +1,25 @@
+;@;arr times = [Fajr, Sunrise, Duhur, Asr, Sunset, Maghrib, Isha, Imsak, Midnight]
+
+;@;boilerplate
+
+[MainParseMeasure]
+Measure=WebParser
+URL=http://api.aladhan.com/v1/timingsByCity?city=Sylhet&country=Bangladesh&method=1
+RegExp=(?siU)"Fajr":"(.*)","Sunrise":"(.*)","Dhuhr":"(.*)","Asr":"(.*)","Sunset":"(.*)","Maghrib":"(.*)","Isha":"(.*)","Imsak":"(.*)","Midnight":"(.*)"
+
+;@;loop times
+[{}Measure]
+Measure=WebParser
+URL=[MainParseMeasure]
+StringIndex=;@;loopIndex
+;@;loopEnd
+
+;@;loop times
+[{}NameMeter]
+Meter=String
+Text={}
+
+[{}TimeMeter]
+Meter=String
+MeasureName={}Measure
+;@;loopEnd
