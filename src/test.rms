@@ -1,0 +1,41 @@
+[Rainmeter]
+Update=1000
+BackgroundMode=2
+SolidColor=255,255,255,150
+DynamicWindowSize=1
+AccurateText=1
+
+[Variables]
+city=Sylhet
+
+;@;arr times = Fajr, Sunrise, Duhur, Asr, Sunset, Maghrib, Isha, Imsak, Midnight;@;
+
+[MainParseMeasure]
+Measure=WebParser
+URL=http://api.aladhan.com/v1/timingsByCity?city=#city#&country=Bangladesh&method=1
+RegExp=(?siU)"Fajr":"(.*)","Sunrise":"(.*)","Dhuhr":"(.*)","Asr":"(.*)","Sunset":"(.*)","Maghrib":"(.*)","Isha":"(.*)","Imsak":"(.*)","Midnight":"(.*)"
+
+;@;loop times
+[{item}Measure]
+Measure=WebParser
+URL=[MainParseMeasure]
+StringIndex={idx}
+;@;
+
+[CityMeter]
+Meter=String
+Text=#city#
+
+;@;loop times
+[{item}NameMeter]
+Meter=String
+Text={item}
+Y=R
+W=55
+
+[{item}TimeMeter]
+Meter=String
+MeasureName={item}Measure
+X=R
+Y=r
+;@;
