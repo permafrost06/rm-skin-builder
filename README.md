@@ -22,11 +22,11 @@ The output file will be saved in `dist` directory.
 ## Options
 
 The `--watch` flag starts the script in watch mode and the skin file is transpiled on inputFile change.
-The `--export-to-skins` flag copies the transpiled skin file to the default Rainmeter skins folder `%USERPROFILE%/Documents/Rainmeter/rmsdev/your_output_file` and activates the skin. If the skin it already activated, it's refreshed. To change the default path, change the `path` variable in `builder.py`.
+The `--export-to-skins` flag copies the transpiled skin file to the default Rainmeter skins folder `%USERPROFILE%/Documents/Rainmeter/rmsdev/your_output_file` and activates the skin. If the skin it already activated, it's refreshed. To change the default path, change the [`path` variable in `builder.py`](https://github.com/permafrost06/rm-skin-builder/blob/master/builder.py#L23).
 
 ## RainMeterScript
 
-The script works sort of like php. The code is enclosed with two instances of `;@;`. For example: `;@;arr times = Fajr, Duhur, Asr, Maghrib, Isha;@;` creates an array `times` with items `Fajr`, `Duhur`, `Asr`, `Maghrib`, and `Isha`.
+The script works sort of like php. It is written alongside vanilla Rainmeter code. The RMS code is enclosed with two instances of `;@;`. For example: `;@;arr times = Fajr, Duhur, Asr, Maghrib, Isha;@;` creates an array `times` with items `Fajr`, `Duhur`, `Asr`, `Maghrib`, and `Isha`. See [`src/test.rms`](https://github.com/permafrost06/rm-skin-builder/blob/master/src/test.rms) for example.
 
 Right now, only arrays can be created and loops can be used to iterate over the arrays.
 
