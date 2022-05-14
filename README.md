@@ -6,9 +6,10 @@
 2. run `pip install -r requirements.txt`
 3. Create a folder `src` in project root.
 4. Create a file with `.rms` extension. (An example file is provided)
-5. Write some RainMeterScript code in the file. (See ## RainMeterScript Section for more information)
+5. Write some RainMeterScript code in the file. (See [RainMeterScript](https://github.com/permafrost06/rm-skin-builder#rainmeterscript) Section for more information)
 
 Your project is now ready to be transpiled.
+#### Note: I keep writing transpile but in reality what I've written isn't technically a transpiler yet. A transpiler needs to tokenize the code then feed the tokens to a parser that will generate an AST then generate native code from that AST. What I've written essentially regex matches some patterns, then replaces those matches with generated code. The rest of the code is left untouched. It does not even have error checking. So, just be aware of that.
 
 ## Usage
 
@@ -22,11 +23,11 @@ The output file will be saved in `dist` directory.
 ## Options
 
 The `--watch` flag starts the script in watch mode and the skin file is transpiled on inputFile change.
-The `--export-to-skins` flag copies the transpiled skin file to the default Rainmeter skins folder `%USERPROFILE%/Documents/Rainmeter` and activates the skin. If the skin it already activated, it's refreshed. To change the default path, change the `path` variable in `builder.py`.
+The `--export-to-skins` flag copies the transpiled skin file to the default Rainmeter skins folder `%USERPROFILE%/Documents/Rainmeter/rmsdev/your_output_file` and activates the skin. If the skin it already activated, it's refreshed. To change the default path, change the [`path` variable in `builder.py`](https://github.com/permafrost06/rm-skin-builder/blob/master/builder.py#L23).
 
 ## RainMeterScript
 
-The script works sort of like php. The code is enclosed with two instances of `;@;`. For example: `;@;arr times = Fajr, Duhur, Asr, Maghrib, Isha;@;` creates an array `times` with items `Fajr`, `Duhur`, `Asr`, `Maghrib`, and `Isha`.
+The script works sort of like php. It is written alongside vanilla Rainmeter code. The RMS code is enclosed with two instances of `;@;`. For example: `;@;arr times = Fajr, Duhur, Asr, Maghrib, Isha;@;` creates an array `times` with items `Fajr`, `Duhur`, `Asr`, `Maghrib`, and `Isha`. See [`src/test.rms`](https://github.com/permafrost06/rm-skin-builder/blob/master/src/test.rms) for example.
 
 Right now, only arrays can be created and loops can be used to iterate over the arrays.
 
@@ -63,7 +64,7 @@ StringIndex={idx}
 ;@;
 ```
 
-The above loop will result in the following given that array `times` is the one from the array example above:
+The above loop will result in the following given that array `times` is the one from [the array example above](https://github.com/permafrost06/rm-skin-builder#arrays):
 
 ```
 [FajrMeasure]
@@ -98,3 +99,6 @@ StringIndex=7
 1. Add common meter/measure presets.
 1. Create a hack that changes the default `StringAlign` behaviour so that using the value "R" on X option of next meter places the two meters side by side. Abstract this away somehow.
 1. Make the script installable via pip and make script globally available.
+2. Fix the export functionality - custom skin folder.
+3. Add project settings to file like webpack config but simpler.
+4. Fix foreach loop - change syntax to `foreach var in array` and add support for multiple array enumeration.
