@@ -9,6 +9,7 @@
 5. Write some RainMeterScript code in the file. (See [RainMeterScript](https://github.com/permafrost06/rm-skin-builder#rainmeterscript) Section for more information)
 
 Your project is now ready to be transpiled.
+#### Note: I keep writing transpile but in reality what I've written isn't technically a transpiler yet. A transpiler needs to tokenize the code then feed the tokens to a parser that will generate an AST then generate native code from that AST. What I've written essentially regex matches some patterns, then replaces those matches with generated code. The rest of the code is left untouched. It does not even have error checking. So, just be aware of that.
 
 ## Usage
 
