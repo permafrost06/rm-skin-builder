@@ -99,6 +99,6 @@ StringIndex=7
 1. Add common meter/measure presets.
 1. Create a hack that changes the default `StringAlign` behaviour so that using the value "R" on X option of next meter places the two meters side by side. Abstract this away somehow.
 1. Make the script installable via pip and make script globally available.
-2. Fix the export functionality - custom skin folder.
+2. Fix the export functionality - export to custom skin folder instead of just `rmsdev`.
 3. Add project settings to file like webpack config but simpler.
 4. Fix foreach loop - change syntax to `foreach var in array` and add support for multiple array enumeration.
