@@ -1,27 +1,48 @@
 import re
 
 def transpileRMS(SkinScriptString: str)-> str:
+    # remove empty lines
     TranspiledString = SkinScriptString.replace('\n\n','\n')
 
+    # match arrays
     arrayMatches = re.finditer(r';@;arr (?P<varName>[a-zA-Z0-9]*) = (?P<arrItems>.*?);@;', TranspiledString)
+    # match loops
     loopMatches = re.finditer(r'(?s);@;loop (?P<loopVar>[a-zA-Z0-9]*).*?\n(?P<loopText>.*?)\n;@;', TranspiledString)
 
-    scriptArrs = {}
+    # dict to store script arrays
+    scriptArrs: dict[str, list] = {}
 
-    def getArrayItemsFromString(itemsStr: str):
+    # split string into array items
+    def getArrayItemsFromString(itemsStr: str)-> list[str]:
+        # remove whitespace
         itemsStr = itemsStr.replace(" ", "")
         return itemsStr.split(",")
 
-    for x in arrayMatches:
-        scriptArrs[x["varName"]] = getArrayItemsFromString(x["arrItems"])
-        TranspiledString = TranspiledString.replace(x.group(), "")
+    for match in arrayMatches:
+        matchedText = match.group()
 
-    for x in loopMatches:
+        varName = match["varName"]
+        arrItems = getArrayItemsFromString(match["arrItems"])
+
+        # store array in dict
+        scriptArrs[varName] = arrItems
+
+        # remove matched string
+        TranspiledString = TranspiledString.replace(matchedText, "")
+
+    for match in loopMatches:
+        matchedText = match.group()
+
+        loopVar = match["loopVar"]
+        loopText = match["loopText"]
+
         output: str = ""
-        for idx, item in enumerate(scriptArrs[x["loopVar"]]):
-            output += x["loopText"].replace("{item}", item).replace("{idx}", str(idx + 1))
+        # loop over looptext or template string and replace placeholders with values
+        for idx, item in enumerate(scriptArrs[loopVar]):
+            output += loopText.replace("{item}", item).replace("{idx}", str(idx + 1))
             output += "\n"
         
-        TranspiledString = TranspiledString.replace(x.group(), output)
+        # replace matched string with generated string
+        TranspiledString = TranspiledString.replace(matchedText, output)
     
     return TranspiledString
