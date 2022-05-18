@@ -13,7 +13,7 @@ parser.add_argument('outputFile', help='output .ini file in folder "dist"')
 
 # Optional flags
 parser.add_argument('-w' ,'--watch', action='store_true', help='Turn watch mode on')
-parser.add_argument('-e', '--export-to-skins', type=str, help='Export to Rainmeter/Skins/rmsdev folder')
+parser.add_argument('-e', '--export-to-skins', metavar="skin_name", type=str, default="rmsdev", help='Export to Rainmeter/Skins/skin_name folder')
 # parser.add_argement('-f', '--force-overwrite', action='store_true', help="Overwrite existing skin config file at export location")
 
 if not os.path.isdir('dist'):
@@ -46,7 +46,7 @@ if args.export_to_skins:
         app_refresh_required = True
 
 def transpile():
-    with open(os.path.join('src', args.inputFile), 'r') as inputFile, open(os.path.join('dist', args.outputFile), 'w') as outputFile:
+    with open(args.inputFile, 'r') as inputFile, open(args.outputFile, 'w') as outputFile:
         ScriptString = inputFile.read()
         SkinString = transpileRMS(ScriptString)
         outputFile.write(SkinString)
@@ -74,8 +74,9 @@ def action():
 
 class MyHandler(FileSystemEventHandler):
     def on_modified(self, event):
-        print('Change detected, transpiling new file')
-        action()
+        if os.path.samefile(event.src_path, args.inputFile):
+            print('Change detected, transpiling new file')
+            action()
 
 if args.watch:
     action()
@@ -84,7 +85,7 @@ if args.watch:
     print('...')
     event_handler = MyHandler()
     observer = Observer()
-    observer.schedule(event_handler, path=f'./src', recursive=True)
+    observer.schedule(event_handler, path=f'.', recursive=True)
     observer.start()
 
     try:

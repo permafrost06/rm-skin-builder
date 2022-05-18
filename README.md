@@ -4,9 +4,8 @@
 
 1. Clone the project.
 2. run `pip install -r requirements.txt`
-3. Create a folder `src` in project root.
-4. Create a file with `.rms` extension. (An example file is provided)
-5. Write some RainMeterScript code in the file. (See [RainMeterScript](https://github.com/permafrost06/rm-skin-builder#rainmeterscript) Section for more information)
+3. Create a file with `.rms` extension. (See [`examples`](https://github.com/permafrost06/rm-skin-builder/examples) folder for example scripts)
+4. Write some RainMeterScript code in the file. (See [RainMeterScript](https://github.com/permafrost06/rm-skin-builder#rainmeterscript) Section for more information)
 
 Your project is now ready to be transpiled.
 
@@ -15,11 +14,24 @@ Your project is now ready to be transpiled.
 ## Usage
 
 `python builder.py [-h] [--watch] [--export-to-skins] inputFile outputFile`
+`python builder.py [-h] [-w] [-e EXPORT_TO_SKINS] inputFile outputFile`
 or use whatever python interpreter you choose e.g. `python3`
-`inputFile` should be only the filename in folder `src`.
-Incorrect: `python builder.py src/test.rms test.ini` ❌
-Correct: `python builder.py test.rms test.ini` ✅
-The output file will be saved in `dist` directory.
+
+### Command line options:
+
+```
+RainMeterScript Transpiler
+
+positional arguments:
+  inputFile             input .rms file in folder "src"
+  outputFile            output .ini file in folder "dist"
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -w, --watch           Turn watch mode on
+  -e skin_name, --export-to-skins skin_name
+                        Export to Rainmeter/Skins/skin_name folder
+```
 
 ## Options
 
