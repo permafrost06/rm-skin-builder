@@ -9,6 +9,7 @@
 5. Write some RainMeterScript code in the file. (See [RainMeterScript](https://github.com/permafrost06/rm-skin-builder#rainmeterscript) Section for more information)
 
 Your project is now ready to be transpiled.
+
 #### Note: I keep writing transpile but in reality what I've written isn't technically a transpiler yet. A transpiler needs to tokenize the code then feed the tokens to a parser that will generate an AST then generate native code from that AST. What I've written essentially regex matches some patterns, then replaces those matches with generated code. The rest of the code is left untouched. It does not even have error checking. So, just be aware of that.
 
 ## Usage
@@ -92,13 +93,16 @@ StringIndex=7
 ## ToDos
 
 1. Move the huge strings to another file. New extension I'm thinking .rms (RainMeterScript). ✅
-1. Make a ~~parser~~transpiler to ~~parse~~transpile aforementioned .rms files. ✅
-1. Modify the script to build to `.rmskin` and/or skin with correct folder structure.
-1. Reusable styles.
-1. Add row/column placement option (similar to Bootstrap CSS).
-1. Add common meter/measure presets.
-1. Create a hack that changes the default `StringAlign` behaviour so that using the value "R" on X option of next meter places the two meters side by side. Abstract this away somehow.
-1. Make the script installable via pip and make script globally available.
-2. Fix the export functionality - export to custom skin folder instead of just `rmsdev`.
-3. Add project settings to file like webpack config but simpler.
-4. Fix foreach loop - change syntax to `foreach var in array` and add support for multiple array enumeration.
+2. Make a ~~parser~~transpiler to ~~parse~~transpile aforementioned .rms files. ✅
+3. Modify the script to build to `.rmskin` and/or skin with correct folder structure.
+4. Reusable styles.
+5. Add row/column placement option (similar to Bootstrap CSS).
+6. Add common meter/measure presets.
+7. Create a hack that changes the default `StringAlign` behaviour so that using the value "R" on X option of next meter places the two meters side by side. Abstract this away somehow.
+8. Make the script installable via pip and make script globally available.
+9. Fix the export functionality - export to custom skin folder instead of just `rmsdev`. ✅
+10. Check if export folder is empty before export, prompt user.
+11. Add project settings to file like webpack config but simpler.
+12. Fix foreach loop in transpiler - change syntax to `foreach var in array` and add support for multiple array enumeration.
+13. Add number array generation support - similar to range() in python to transpiler.
+14. Add section templates support to transpiler.

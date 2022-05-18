@@ -5,57 +5,80 @@ from watchdog.events import FileSystemEventHandler
 
 from transpiler import transpileRMS
 
-parser = argparse.ArgumentParser(description='Rainmeter Skin Builder')
+parser = argparse.ArgumentParser(description='RainMeterScript Transpiler')
 
-# Required positional argument
+# Required positional arguments
 parser.add_argument('inputFile', help='input .rms file in folder "src"')
 parser.add_argument('outputFile', help='output .ini file in folder "dist"')
 
-parser.add_argument('--watch', action='store_true', help='Turn watch mode on')
-parser.add_argument('--export-to-skins', action='store_true', help='Export to Rainmeter/Skins/rmsdev folder')
+# Optional flags
+parser.add_argument('-w' ,'--watch', action='store_true', help='Turn watch mode on')
+parser.add_argument('-e', '--export-to-skins', type=str, help='Export to Rainmeter/Skins/rmsdev folder')
+# parser.add_argement('-f', '--force-overwrite', action='store_true', help="Overwrite existing skin config file at export location")
 
 if not os.path.isdir('dist'):
     os.mkdir('dist')
 
 args = parser.parse_args()
 
-# path = 'D:/Software/_portable/Rainmeter'
-path = "%USERPROFILE%/Documents/Rainmeter"
+path = ""
+skin_folder = ""
+export_path = ""
 
-# if args.export_to_skins:
-#     default_path = "D:/Software/_portable/Rainmeter"
+app_refresh_required = False
 
-#     try:
-#         path = os.environ['RMPATH']
-#         print(f"Exporting to {path}/Skins from RMPATH variable...")
-#     except KeyError:
-#         path = default_path
-#         print("Environment variable RMPATH not set.")
-#         print(f"Exporting to default {path}/Skins...")
+if args.export_to_skins:
+    try:
+        path = os.environ['RMPATH']
+    except:
+        path = "%USERPROFILE%/Documents/Rainmeter"
         
-#     if not os.path.isdir(f'{path}/Skins/rmsdev'):
-#         os.mkdir(f'{path}/Skins/rmsdev')
-#     dev = "/Skins/rmsdev"
+    print(f"Rainmeter path set to {path}")
+
+    skin_folder = args.export_to_skins
+    print(f"Skin folder is {skin_folder}")
+
+    export_path = os.path.join(path, "Skins", skin_folder)
+
+    if not os.path.isdir(export_path):
+        print(f"Creating folder {export_path}...")
+        os.mkdir(export_path)
+        app_refresh_required = True
 
 def transpile():
-    with open(f'src/{args.inputFile}', 'r') as inputFile, open(f'dist/{args.outputFile}', 'w') as outputFile:
+    with open(os.path.join('src', args.inputFile), 'r') as inputFile, open(os.path.join('dist', args.outputFile), 'w') as outputFile:
         ScriptString = inputFile.read()
         SkinString = transpileRMS(ScriptString)
         outputFile.write(SkinString)
 
+def copyToSkinFolder():
+    print(f"Exporting skin to {export_path}")
+    shutil.copyfile(os.path.join("dist", args.outputFile), os.path.join(export_path, args.outputFile))
+
+    global app_refresh_required
+    if app_refresh_required:
+        print('Refreshing Rainmeter to load new skin...')
+        os.system(f'{path}/Rainmeter.exe !RefreshApp')
+        app_refresh_required = False
+
+    print("Refreshing skin...")
+    # Activate skin config
+    os.system(f'{path}/Rainmeter.exe !ActivateConfig {skin_folder} {args.outputFile}')
+    # Refresh skin
+    os.system(f'{path}/Rainmeter.exe !Refresh {skin_folder}')
+
+def action():
+    transpile()
+    if args.export_to_skins:
+        copyToSkinFolder()
+
 class MyHandler(FileSystemEventHandler):
     def on_modified(self, event):
         print('Change detected, transpiling new file')
-        transpile()
-        if (args.export_to_skins):
-            print(f"exporting skin to {path}/Skins/rmsdev")
-            shutil.copyfile("dist/" + args.outputFile, f"{path}/Skins/rmsdev/{args.outputFile}")
-            print("refreshing skin")
-            os.system(f'{path}/Rainmeter.exe !ActivateConfig "rmsdev" "test.ini"')
-            os.system(f'{path}/Rainmeter.exe !Refresh rmsdev')
+        action()
 
 if args.watch:
-    transpile()
+    action()
     print(f'Watching {args.inputFile} for changes')
     print('Press Ctrl+C to stop watching')
     print('...')
@@ -72,4 +95,4 @@ if args.watch:
     observer.join()
 
 else:
-    transpile()
+    action()    
