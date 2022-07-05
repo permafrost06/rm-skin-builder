@@ -4,7 +4,7 @@
 
 1. Clone the project.
 2. run `pip install -r requirements.txt`
-3. Create a file with `.rms` extension. (See [`examples`](https://github.com/permafrost06/rm-skin-builder/examples) folder for example scripts)
+3. Create a file with `.rms` extension. (See [`examples`](https://github.com/permafrost06/rm-skin-builder/tree/master/examples) folder for example scripts)
 4. Write some RainMeterScript code in the file. (See [RainMeterScript](https://github.com/permafrost06/rm-skin-builder#rainmeterscript) Section for more information)
 
 Your project is now ready to be transpiled.
